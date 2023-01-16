@@ -10,7 +10,9 @@ npm install
 
 ## Lancement
 
+```bash
 npm run start
+```
 
 ## Fonctionnement
 
