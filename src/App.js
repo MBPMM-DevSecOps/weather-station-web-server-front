@@ -1,5 +1,4 @@
 import Chart from "./components/chart";
-import LineChart from "./components/LineChart";
 import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
