@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 // SANS API  : fakedatas à commenter
-import { fakedatas } from "./fakedata";
-import { useCallback, useState } from "react";
-import { Line, Bar } from "react-chartjs-2";
-import { Chart as Graphic, registerables } from "chart.js";
-import { useEffect } from "react";
+import { fakedatas } from './fakedata';
+import { useCallback, useState } from 'react';
+import { Line, Bar } from 'react-chartjs-2';
+import { Chart as Graphic, registerables } from 'chart.js';
+import { useEffect } from 'react';
 Graphic.register(...registerables);
 
 function Chart() {
@@ -24,7 +24,7 @@ function Chart() {
         plugins: {
           title: {
             display: true,
-            text: "Température",
+            text: 'Température',
           },
         },
       },
@@ -33,9 +33,9 @@ function Chart() {
         labels: timeStamps,
         datasets: [
           {
-            label: "Températures (°C)",
-            backgroundColor: "rgb(255, 99, 132)",
-            borderColor: "rgb(255, 99, 132)",
+            label: 'Températures (°C)',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
             data: temperatures,
             tension: 0.3,
           },
@@ -46,7 +46,7 @@ function Chart() {
         plugins: {
           title: {
             display: true,
-            text: "Hygrométrie",
+            text: 'Hygrométrie',
           },
         },
       },
@@ -55,9 +55,9 @@ function Chart() {
         labels: timeStamps,
         datasets: [
           {
-            label: "Hygrométrie (%)",
-            backgroundColor: "rgb(213, 184, 255)",
-            borderColor: "rgb(213, 184, 255)",
+            label: 'Hygrométrie (%)',
+            backgroundColor: 'rgb(213, 184, 255)',
+            borderColor: 'rgb(213, 184, 255)',
             data: hygrometries,
             tension: 0.3,
           },
@@ -69,7 +69,7 @@ function Chart() {
         plugins: {
           title: {
             display: true,
-            text: "Sens des vents",
+            text: 'Sens des vents',
           },
         },
       },
@@ -78,9 +78,9 @@ function Chart() {
         labels: timeStamps,
         datasets: [
           {
-            label: "Sens des vents (0 - 360°)",
-            backgroundColor: "rgb(104, 195, 163)",
-            borderColor: "rgb(104, 195, 163)",
+            label: 'Sens des vents (0 - 360°)',
+            backgroundColor: 'rgb(104, 195, 163)',
+            borderColor: 'rgb(104, 195, 163)',
             data: sensDesVents,
             tension: 0.3,
           },
@@ -92,7 +92,7 @@ function Chart() {
         plugins: {
           title: {
             display: true,
-            text: "Force du vent",
+            text: 'Force du vent',
           },
         },
       },
@@ -101,9 +101,9 @@ function Chart() {
         labels: timeStamps,
         datasets: [
           {
-            label: "Force du vent (m/s)",
-            backgroundColor: "rgb(53, 162, 235)",
-            borderColor: "rgb(53, 162, 235)",
+            label: 'Force du vent (m/s)',
+            backgroundColor: 'rgb(53, 162, 235)',
+            borderColor: 'rgb(53, 162, 235)',
             data: forceDesVents,
             tension: 0.3,
           },
@@ -144,30 +144,46 @@ function Chart() {
   }
 
   function initStatistics() {
-    // AVEC API : à décommenter
-    // axios
-    //   .post(
-    //     `http://localhost:3001/statistique`,
-    //     {
-    //       startDate: new Date(startDate) / 1000,
-    //       endDate: new Date(endDate) / 1000,
-    //     },
-    //     {
-    //       headers: {
-    //         "x-access-token": "auboulot",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     setTemperatures(response.data?.map((statistic) => statistic.temperature) ?? []);
-    //     setHygrometries(response.data?.map((statistic) => statistic.hygrometrie) ?? []);
-    //     setSensDesVents(response.data?.map((statistic) => statistic.sensDuVent) ?? []);
-    //     setForceDesVents(response.data?.map((statistic) => statistic.forceDuVent) ?? [] );
-    //     setTimeStamps(response.data?.map((statistic) => new Date(parseInt(statistic.timeStamp) * 1000).toLocaleString()) ?? []);
-    //   });
+    //AVEC API : à décommenter
+    axios
+      .post(
+        `http://localhost:3001/statistique`,
+        {
+          startDate: new Date(startDate) / 1000,
+          endDate: new Date(endDate) / 1000,
+        },
+        {
+          headers: {
+            'x-access-token': 'auboulot',
+          },
+        },
+      )
+      .then((response) => {
+        setTemperatures(
+          response.data?.map((statistic) => statistic.temperature) ?? [],
+        );
+        setHygrometries(
+          response.data?.map((statistic) => statistic.hygrometrie) ?? [],
+        );
+        setSensDesVents(
+          response.data?.map((statistic) => statistic.sensDuVent) ?? [],
+        );
+        setForceDesVents(
+          response.data?.map((statistic) => statistic.forceDuVent) ?? [],
+        );
+        setTimeStamps(
+          response.data?.map((statistic) =>
+            new Date(parseInt(statistic.timeStamp) * 1000).toLocaleString(),
+          ) ?? [],
+        );
+        console.log(temperatures);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     // SANS API : à commenter
-    setTemperatures(
+    /* setTemperatures(
       fakedatas.statistics.map((statistic) => statistic.temperature)
     );
     setHygrometries(
@@ -179,7 +195,7 @@ function Chart() {
     setForceDesVents(
       fakedatas.statistics.map((statistic) => statistic.forceDuVent)
     );
-    setTimeStamps(fakedatas.statistics.map((statistic) => statistic.timeStamp));
+    setTimeStamps(fakedatas.statistics.map((statistic) => statistic.timeStamp)); */
   }
 
   function getCurrentDate() {
@@ -229,7 +245,7 @@ function Chart() {
               data={graphConfigurations?.dataTemperature}
             />
           ) : (
-            "Pas de graphique disponible"
+            'Pas de graphique disponible'
           )}
         </div>
         <div>
@@ -239,7 +255,7 @@ function Chart() {
               data={graphConfigurations?.dataHygrometrie}
             />
           ) : (
-            "Pas de graphique disponible"
+            'Pas de graphique disponible'
           )}
         </div>
         <div>
@@ -249,7 +265,7 @@ function Chart() {
               data={graphConfigurations?.dataSensDuVent}
             />
           ) : (
-            "Pas de graphique disponible"
+            'Pas de graphique disponible'
           )}
         </div>
         <div>
@@ -259,7 +275,7 @@ function Chart() {
               data={graphConfigurations?.dataForceDuVent}
             />
           ) : (
-            "Pas de graphique disponible"
+            'Pas de graphique disponible'
           )}
         </div>
       </div>
